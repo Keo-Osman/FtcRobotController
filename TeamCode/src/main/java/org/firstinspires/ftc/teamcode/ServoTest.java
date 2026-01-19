@@ -14,7 +14,8 @@ public class ServoTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         servo = hardwareMap.get(Servo.class, "shoot_servo");
-
+        telemetry.addData("Servo Position", servo.getPosition());
+        telemetry.addData("Servo Direction", servo.getDirection().toString());
         waitForStart();
 
         while (opModeIsActive()) {
