@@ -40,7 +40,7 @@ public class Drive {
     }
 
     // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-    public void DriveRobotCentric(double axial, double lateral, double yaw, boolean motorRatioFix){
+    public void DriveRobotCentric(double axial, double lateral, double yaw){
         double max;
 
         // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -63,9 +63,6 @@ public class Drive {
             backRightPower  /= max;
         }
 
-        if(motorRatioFix){
-            backRightPower *= (20.0/27.0);
-        }
 
         hardware.frontLeftDrive.setPower(frontLeftPower);
         hardware.frontRightDrive.setPower(frontRightPower);

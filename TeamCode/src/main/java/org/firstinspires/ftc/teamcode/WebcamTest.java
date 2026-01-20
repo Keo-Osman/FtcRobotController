@@ -23,17 +23,19 @@ public class WebcamTest extends LinearOpMode{
 
     @Override
     public void runOpMode() {
-        waitForStart();
+
         VisionPortal portal = new VisionPortal.Builder()
                 //.addProcessor(colorLocator)
                 .setCameraResolution(new Size(320, 240))
-                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
                 .setAutoStartStreamOnBuild(true)
                 .build();
         // Wait until streaming
         while (portal.getCameraState() != VisionPortal.CameraState.STREAMING) {
             sleep(10);
         }
+        telemetry.addData("Streaming", true);
+        telemetry.update();
 
         ExposureControl exposure = portal.getCameraControl(ExposureControl.class);
         long exposureMin, exposureMax;
@@ -43,7 +45,8 @@ public class WebcamTest extends LinearOpMode{
         WhiteBalanceControl whiteBalance = portal.getCameraControl(WhiteBalanceControl.class);
         FocusControl focus = portal.getCameraControl(FocusControl.class);
         double focusMin, focusMax;
-
+//
+//        waitForStart();
         // Preview stream is only available during opModeInInit not opModeIsActive
         while(opModeIsActive() || opModeInInit()) {
             // Exposure

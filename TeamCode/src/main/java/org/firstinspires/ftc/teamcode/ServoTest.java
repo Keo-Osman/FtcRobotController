@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="Servo Test", group="Linear OpMode")
 public class ServoTest extends LinearOpMode {
+    // REV 41-3334
+    // TRY TO FIND SRS PROGRAMMER
     private Servo servo;
 
     // CHECK CAREFULLY IF MOVING COULD BE MECHANICAL ISSUE - DISCONNECT GEAR IF NOT
