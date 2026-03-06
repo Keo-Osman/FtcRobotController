@@ -24,6 +24,7 @@ package org.firstinspires.ftc.teamcode;
 import android.graphics.Color;
 import android.util.Size;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -68,6 +69,7 @@ import java.util.List;
  */
 
 @TeleOp(name = "Concept: Vision Color-Locator (Circle)", group = "Concept")
+@Disabled
 public class ConceptVisionColorLocator_Circle extends LinearOpMode {
     @Override
     public void runOpMode() {
