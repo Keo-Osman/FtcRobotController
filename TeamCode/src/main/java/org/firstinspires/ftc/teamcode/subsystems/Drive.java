@@ -29,14 +29,27 @@ package org.firstinspires.ftc.teamcode.subsystems;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Drive {
-    RobotHardware hardware;
     private double frontLeftPower, frontRightPower, backLeftPower, backRightPower;
+    private DcMotor frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
 
-    public Drive(RobotHardware hardware){
-        this.hardware = hardware;
+    public Drive(DcMotor frontLeftMotor, DcMotor frontRightMotor, DcMotor backLeftMotor, DcMotor backRightMotor){
+
+        this.frontLeftMotor = frontLeftMotor;
+
+        this.frontRightMotor = frontRightMotor;
+        this.frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        this.backLeftMotor = backLeftMotor;
+        this.backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        this.backRightMotor = backRightMotor;
+
     }
 
     // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -64,10 +77,10 @@ public class Drive {
         }
 
 
-        hardware.frontLeftDrive.setPower(frontLeftPower);
-        hardware.frontRightDrive.setPower(frontRightPower);
-        hardware.backLeftDrive.setPower(backLeftPower);
-        hardware.backRightDrive.setPower(backRightPower);
+        frontLeftMotor.setPower(frontLeftPower);
+        frontRightMotor.setPower(frontRightPower);
+        backLeftMotor.setPower(backLeftPower);
+        backRightMotor.setPower(backRightPower);
     }
 
     public void addTelemetry(Telemetry telemetry){

@@ -6,41 +6,24 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.subsystems.Drive;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
-import org.firstinspires.ftc.teamcode.subsystems.GamepadTelemetry;
 import org.firstinspires.ftc.teamcode.subsystems.Pickup;
 import org.firstinspires.ftc.teamcode.subsystems.RobotHardware;
 
-@TeleOp(name="Main TeleOp", group="Linear OpMode")
+@TeleOp(name="Main TeleOp", group="Competition")
 public class TeleOpMain extends LinearOpMode {
     private RobotHardware hardware;
     private Drive drive;
     private Pickup pickup;
-//    private RobotVision vision;
-    private GamepadTelemetry gamepadTelemetry;
     private ElapsedTime runtime;
     private Flywheel flywheel;
 
     @Override
     public void runOpMode(){
         hardware = new RobotHardware(hardwareMap);
-        drive = new Drive(hardware);
-//        vision = new RobotVision(hardware);
-        pickup = new Pickup(hardware.pickupMotor);
+        drive = new Drive(hardware.frontLeftDrive, hardware.frontRightDrive, hardware.backLeftDrive, hardware.backRightDrive);
         flywheel = new Flywheel(hardware.flywheelBack, hardware.flywheelFront);
-        gamepadTelemetry = new GamepadTelemetry();
+        pickup = new Pickup(hardware.pickupMotorFront, hardware.pickupMotorBack);
         runtime = new ElapsedTime();
-
-        // Webcam stream preview only available in opModeInInit
-//        while(opModeInInit()){
-//            // Wait until streaming
-//            while (vision.visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
-//                sleep(10);
-//                telemetry.addLine("Waiting for Camera to initialise");
-//            }
-//            telemetry.addLine("Camera Initialised");
-//            vision.VisionTelemetry(telemetry, 1);
-//            telemetry.update();
-//        }
 
         waitForStart();
         telemetry.clearAll();
@@ -48,7 +31,7 @@ public class TeleOpMain extends LinearOpMode {
 
 
         while (opModeIsActive()){
-
+            // Gamepad (1) controls drive
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
@@ -56,30 +39,43 @@ public class TeleOpMain extends LinearOpMode {
             drive.driveRobotCentric(axial, lateral, yaw);
 
 
-            pickup.update(gamepad1.a);
+            // Gamepad (2) controls pickup and flywheel
+            //Pickup controls
+            if(gamepad2.dpad_up){
+                pickup.activate();
+            }
+            else{
+                pickup.stop();
+            }
 
-            if(gamepad1.right_trigger > 0.2){
-                flywheel.timedShoot();
+            // Main flywheel controls
+            if(gamepad2.crossWasPressed()){
+                flywheel.startRampUp();
             }
-            if(gamepad1.left_trigger > 0.2){
-                flywheel.continuousSpin();
+            if(gamepad2.squareWasPressed()){
+                flywheel.startRampDown();
             }
+            if(gamepad2.dpadDownWasPressed()){
+                flywheel.stop();
+            }
+
+            // Controller flywheel override
+            if(!flywheel.rampingUp && !flywheel.rampingDown) {
+                flywheel.setPower(Flywheel.MotorType.BACK, gamepad2.left_trigger);
+                flywheel.setPower(Flywheel.MotorType.FRONT, gamepad2.right_trigger);
+            }
+
+
             flywheel.update();
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-//            vision.VisionTelemetry(telemetry, 1);
             drive.addTelemetry(telemetry);
             flywheel.addTelemetry(telemetry);
             pickup.addTelemetry(telemetry);
 
-            gamepadTelemetry.Sticks(telemetry, gamepad1);
-            gamepadTelemetry.DPad(telemetry, gamepad1);
-
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.update();
         }
     }
-
-
 }
 
 

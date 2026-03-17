@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.subsystems.Flywheel;
 import org.firstinspires.ftc.teamcode.subsystems.GamepadTelemetry;
 
-@TeleOp(name="Flywheel Test", group="Linear OpMode")
+@TeleOp(name="Flywheel Test", group="Test")
 public class FlywheelTest extends LinearOpMode {
     private Flywheel flywheel;
     private GamepadTelemetry gpTelemetry;
