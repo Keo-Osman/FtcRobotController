@@ -63,7 +63,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Basic: Omni Linear OpMode", group="Linear OpMode")
+@TeleOp(name="Drive Direction Test", group="Test")
 @Disabled
 public class BasicOmniOpMode_Linear extends LinearOpMode {
 
@@ -145,12 +145,12 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             //      the setDirection() calls above.
             // Once the correct motors move in the correct direction re-comment this code.
 
-            /*
-            frontLeftPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-            backLeftPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
-            frontRightPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
-            backRightPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
-            */
+
+            frontLeftPower  = gamepad1.cross ? 1.0 : 0.0;  // X gamepad
+            backLeftPower   = gamepad1.circle ? 1.0 : 0.0;  // A gamepad
+            frontRightPower = gamepad1.triangle ? 1.0 : 0.0;  // Y gamepad
+            backRightPower  = gamepad1.square ? 1.0 : 0.0;  // B gamepad
+
 
             // Send calculated power to wheels
             frontLeftDrive.setPower(frontLeftPower);
